@@ -26,14 +26,14 @@ __END__
 
 =head1 SYNOPSIS
 
-  use DBIx::Simple::Concrete;
-  # ...
-  my $rows = $db->cquery( '
-      SELECT title
-      FROM threads
-      WHERE date >', \$x, '
-      AND subject IN', \@subjects, '
-  ' )->arrays;
+ use DBIx::Simple::Concrete;
+ # ...
+ my $rows = $db->cquery( '
+     SELECT title
+     FROM threads
+     WHERE date >', \$date, '
+     AND', { subject => \@subjects }, '
+ ' )->arrays;
 
 =head1 DESCRIPTION
 
