@@ -24,6 +24,8 @@ sub import { shift; SQL::Concrete->import::into( scalar caller, @_ ) }
 
 __END__
 
+=pod
+
 =head1 SYNOPSIS
 
  use DBIx::Simple::Concrete;
