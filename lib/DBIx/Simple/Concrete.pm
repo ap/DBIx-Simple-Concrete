@@ -2,7 +2,7 @@ use 5.006; use strict; use warnings;
 
 package DBIx::Simple::Concrete;
 
-# ABSTRACT: monkey-patch DBIx::Simple to use SQL::Concrete
+our $VERSION = '1.001';
 
 use DBIx::Simple ();
 use SQL::Concrete ();
@@ -21,6 +21,14 @@ die 'Too late to patch DBIx::Simple' if DBIx::Simple->can( 'cquery' );
 *DBIx::Simple::cquery = \&cquery;
 
 __END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 NAME
+
+DBIx::Simple::Concrete - monkey-patch DBIx::Simple to use SQL::Concrete
 
 =head1 SYNOPSIS
 
@@ -43,3 +51,5 @@ method will be added to it which integrates L<SQL::Concrete> just the same
 way as its built-in C<iquery> method integrates L<SQL::Interp>.
 
 This is all there is to this module.
+
+=cut
