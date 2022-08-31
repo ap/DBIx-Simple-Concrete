@@ -1,21 +1,11 @@
-use 5.006;
-use strict;
-no warnings;
+use 5.006; use strict; use warnings;
 
 package DBIx::Simple::Concrete;
 
 # ABSTRACT: monkey-patch DBIx::Simple to use SQL::Concrete
 
-BEGIN {
-	require SQL::Concrete;
-	require DBIx::Simple;
-	die 'Too late to patch DBIx::Simple' if DBIx::Simple->can( 'cquery' );
-	*DBIx::Simple::cquery = sub {
-		use warnings; # limited scope to avoid "Subroutine redefined"
-		my $self = shift;
-		return $self->query( SQL::Concrete::Renderer->new->render( @_ ) );
-	};
-}
+use DBIx::Simple ();
+use SQL::Concrete ();
 
 sub import {
 	shift;
@@ -24,7 +14,11 @@ sub import {
 	&$sub;
 }
 
-1;
+sub cquery { shift->query( SQL::Concrete::Renderer->new->render( @_ ) ) }
+
+die 'Too late to patch DBIx::Simple' if DBIx::Simple->can( 'cquery' );
+
+*DBIx::Simple::cquery = \&cquery;
 
 __END__
 
