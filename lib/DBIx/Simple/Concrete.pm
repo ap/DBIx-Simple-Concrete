@@ -2,7 +2,7 @@ use 5.006; use strict; use warnings;
 
 package DBIx::Simple::Concrete;
 
-our $VERSION = '1.006';
+our $VERSION = '1.007';
 
 use DBIx::Simple ();
 use SQL::Concrete ();
