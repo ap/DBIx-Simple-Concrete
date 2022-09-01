@@ -9,7 +9,6 @@ package DBIx::Simple::Concrete;
 BEGIN {
 	require SQL::Concrete;
 	require DBIx::Simple;
-	require Import::Into;
 	die 'Too late to patch DBIx::Simple' if DBIx::Simple->can( 'cquery' );
 	*DBIx::Simple::cquery = sub {
 		use warnings; # limited scope to avoid "Subroutine redefined"
@@ -18,7 +17,12 @@ BEGIN {
 	};
 }
 
-sub import { shift; SQL::Concrete->import::into( scalar caller, @_ ) }
+sub import {
+	shift;
+	my $prelude = sprintf qq'package %s;\n#line %d "%s"\n', ( caller )[0,2,1];
+	my $sub = eval qq{ sub { $prelude SQL::Concrete->import(\@_) } };
+	&$sub;
+}
 
 1;
 
